@@ -1,13 +1,14 @@
-const express = require('express');
-const { getProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
-const { protect } = require('../middleware/authMiddleware');
-const { admin } = require('../middleware/adminMiddleware');
-const multer = require('multer');
+import express from 'express';
+import multer from 'multer';
+import {getProducts, getProductById, createProduct, updateProduct, deleteProduct} from '../controllers/productController.js';
+import { protect } from '../middleware/authMiddleware.js';
+import { admin } from '../middleware/adminMiddleware.js';
+
 const upload = multer({ dest: 'uploads/' });
 
-const router = express.Router();
+const productRoutes = express.Router();
 
-router.route('/').get(getProducts).post(protect, admin, upload.single('image'), createProduct);
-router.route('/:id').get(getProductById).put(protect, admin, upload.single('image'), updateProduct).delete(protect, admin, deleteProduct);
+productRoutes.route('/').get(getProducts).post(protect, admin, upload.single('image'), createProduct);
+productRoutes.route('/:id').get(getProductById).put(protect, admin, upload.single('image'), updateProduct).delete(protect, admin, deleteProduct);
 
-module.exports = router;
+module.exports = productRoutes;

@@ -1,13 +1,24 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
 const connectDB = async () => {
-    try{
-        const connection = await mongoose.connect(process.env.MONGO_URI);
-            console.log("mongo db is connected successfully")
+    const uri = process.env.MONGO_URI?.trim();
+
+    if (!uri) {
+        throw new Error("MONGO_URI is not set. Add it to backend/.env.");
     }
-    catch(error){
-        console.log("MONGO DB NOT CONNETED")
-        process.exit(1)
+
+    try {
+        await mongoose.connect(uri);
+        console.log("MongoDB connected successfully");
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        const sanitizedMessage = message.replace(
+            /(mongodb(?:\+srv)?:\/\/)[^/@\s]+@/gi,
+            "$1<redacted>@"
+        );
+
+        throw new Error(`MongoDB connection failed: ${sanitizedMessage}`, { cause: error });
     }
-}
+};
 
 export default connectDB;
