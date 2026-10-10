@@ -1,22 +1,45 @@
-import "dotenv/config"
-import cors from "cors"
-import express from "express"
+import "dotenv/config";
+import cors from "cors";
+import express from "express";
+
 import connectDB from "./config/db.js";
-connectDB();
+
+import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
+
 const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());
-app.get("/" , (req ,res) => {
+
+// Root route
+app.get("/", (req, res) => {
     res.send("E commerce backend is working");
 });
 
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/products', require('./routes/productRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));
-app.use('/api/payment', require('./routes/paymentRoutes'));
-app.use('/api/analytics', require('./routes/analyticsRoutes'));
-app.listen(port ,() =>{
-    console.log(`Server is running on port ${port}`)
-})
+// API routes
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/analytics", analyticsRoutes);
+
+// Connect to database before starting server
+const startServer = async () => {
+    try {
+        await connectDB();
+
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    } catch (error) {
+        console.error("Failed to start server:", error.message);
+        process.exit(1);
+    }
+};
+
+startServer();
