@@ -1,7 +1,7 @@
-const express = require('express');
-const { getAdminStats } = require('../controllers/analyticsController');
-const { protect } = require('../middleware/authMiddleware');
-const { admin } = require('../middleware/adminMiddleware');
+import express from "express";
+import { getAdminStats } from "../controllers/analyticsController.js";
+import { protect } from "../middlewares/authMiddleware.js";
+import { admin } from "../middlewares/adminMiddleware.js";
 
 const router = express.Router();
 
