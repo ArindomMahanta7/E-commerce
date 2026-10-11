@@ -1,4 +1,4 @@
-import Order from "../model/order.js";
+import Order from "../model/orders.js";
 import Product from "../model/product.js";
 import User from "../model/user.js";
 
@@ -17,4 +17,4 @@ const getAdminStats = async (req, res) => {
   }
 };
 
-module.exports = { getAdminStats };
+export default getAdminStats;
