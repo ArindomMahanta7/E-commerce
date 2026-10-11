@@ -3,8 +3,8 @@ import { getAdminStats } from "../controllers/analyticsController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 import { admin } from "../middlewares/adminMiddleware.js";
 
-const router = express.Router();
+const analyticsRoutes = express.Router();
 
-router.get('/', protect, admin, getAdminStats);
+analyticsRoutes.get('/', protect, admin, getAdminStats);
 
-module.exports = router;
+module.exports = analyticsRoutes;
