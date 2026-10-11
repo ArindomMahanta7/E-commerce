@@ -6,9 +6,7 @@ const generateOTP = () => {
 
 const hashOTP = (otp) => {
     return crypto
-        .createHmac("sha256", process.env.OTP_SECRET)
-        .update(otp)
-        .digest("hex");
+        .createHmac("sha256", process.env.OTP_SECRET).update(otp).digest("hex");
 };
 
 export { generateOTP, hashOTP };
